@@ -87,6 +87,7 @@ class SourceGenerator(type: TypeDeclaration<*>) : Generator(type) {
         PrimitiveType.Primitive.LONG -> "CallLongMethod"
         PrimitiveType.Primitive.FLOAT -> "CallFloatMethod"
         PrimitiveType.Primitive.DOUBLE -> "CallDoubleMethod"
+        null -> throw GenerationException("Got unknown primitive")
       }
     } else if (type.isVoidType) {
       return "CallVoidMethod"

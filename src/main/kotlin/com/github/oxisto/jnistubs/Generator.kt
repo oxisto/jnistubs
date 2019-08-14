@@ -14,11 +14,8 @@ abstract class Generator(protected var typeDeclaration: TypeDeclaration<*>) {
   internal val defaultConstructor: ConstructorDeclaration?
     get() {
       for (member in this.typeDeclaration.members) {
-        if (member is ConstructorDeclaration) {
-
-          if (member.parameters.isEmpty()) {
-            return member
-          }
+        if (member is ConstructorDeclaration && member.parameters.isEmpty()) {
+          return member
         }
       }
 
@@ -72,16 +69,12 @@ abstract class Generator(protected var typeDeclaration: TypeDeclaration<*>) {
   }
 
   protected fun getNativeType(type: Type): String {
-    return if (type.isPrimitiveType) {
-      "j" + type.asPrimitiveType()
-    } else if (type.isArrayType) {
-      getNativeType(type.asArrayType().componentType) + "Array"
-    } else if (type.toString() == "String") {
-      "jstring"
-    } else if (type.toString() == "Class") {
-      "jclass"
-    } else {
-      "jobject"
+    return when {
+      type.isPrimitiveType -> "j" + type.asPrimitiveType()
+      type.isArrayType -> getNativeType(type.asArrayType().componentType) + "Array"
+      type.toString() == "String" -> "jstring"
+      type.toString() == "Class" -> "jclass"
+      else -> "jobject"
     }
   }
 
@@ -98,6 +91,7 @@ abstract class Generator(protected var typeDeclaration: TypeDeclaration<*>) {
           PrimitiveType.Primitive.LONG -> "J"
           PrimitiveType.Primitive.FLOAT -> "F"
           PrimitiveType.Primitive.DOUBLE -> "D"
+          null -> throw GenerationException("Got unknown primitive")
         }
       }
       type.isArrayType -> return "[" + getJNITypeSignature(type.asArrayType().componentType)

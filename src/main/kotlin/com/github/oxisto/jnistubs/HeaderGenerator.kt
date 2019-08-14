@@ -41,7 +41,7 @@ class HeaderGenerator(type: TypeDeclaration<*>) : Generator(type) {
   private fun generateConstructor(): String {
     // for now we only support default constructors
     val constructor = this.defaultConstructor
-            ?: throw RuntimeException("Class does not have default constructor")
+            ?: throw GenerationException("Class does not have default constructor")
 
     return String.format("%s%s(JNIEnv *env);%n", INDENT, this.typeDeclaration.nameAsString)
   }
