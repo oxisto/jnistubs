@@ -2,8 +2,6 @@ import com.palantir.gradle.graal.GraalExtension;
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  java
-  application
   id("com.palantir.graal") version "0.4.0"
   kotlin("jvm") version "1.3.41"
 }
@@ -21,19 +19,10 @@ repositories {
   mavenCentral()
 }
 
-application {
-  mainClassName = "com.github.oxisto.jnistubs.JNIStubsCLI"
-}
-
 dependencies {
   implementation("com.github.javaparser", "javaparser-core", "3.14.10")
   implementation("com.github.javaparser", "javaparser-symbol-solver-core", "3.14.10")
   implementation(kotlin("stdlib-jdk8"))
-}
-
-configure<JavaPluginConvention> {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 val compileKotlin: KotlinCompile by tasks
