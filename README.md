@@ -10,7 +10,7 @@ Build using `GraalVM` `native-image`
 ./gradlew clean nativeImage
 ```
 
-## Install
+Install
 
 ```
 cp build/graal/jnistubs /usr/local/bin
